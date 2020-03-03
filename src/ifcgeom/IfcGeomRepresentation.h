@@ -27,15 +27,16 @@
 #include <TColgp_Array1OfPnt.hxx>
 #include <TColgp_Array1OfPnt2d.hxx>
 
-#include <TopExp_Explorer.hxx>
+#include <TopoDS.hxx>
 #include <BRepTools.hxx>
+#include <TopExp_Explorer.hxx>
 
 #include <BRepAdaptor_Curve.hxx>
 #include <GCPnts_QuasiUniformDeflection.hxx>
 #include <Geom_SphericalSurface.hxx>
 
 #include "../ifcgeom/IfcGeomIteratorSettings.h"
-#include "../ifcgeom/IfcGeomMaterial.h"
+#include "../ifcgeom_schema_agnostic/IfcGeomMaterial.h"
 #include "../ifcgeom/IfcRepresentationShapeItem.h"
 
 #include <TopoDS_Compound.hxx>
@@ -74,7 +75,11 @@ namespace IfcGeom {
 			IfcGeom::IfcRepresentationShapeItems::const_iterator end() const { return shapes_.end(); }
 			const IfcGeom::IfcRepresentationShapeItems& shapes() const { return shapes_; }
 			const std::string& id() const { return id_; }
-			TopoDS_Compound as_compound() const;
+			TopoDS_Compound as_compound(bool force_meters = false) const;
+
+			bool calculate_volume(double&) const;
+			bool calculate_surface_area(double&) const;
+			bool calculate_projected_surface_area(const gp_Ax3& ax, double& along_x, double& along_y, double& along_z) const;
 		};
 
 		class IFC_GEOM_API Serialization : public Representation  {
@@ -160,10 +165,7 @@ namespace IfcGeom {
 					try {
 						BRepMesh_IncrementalMesh(s, settings().deflection_tolerance());
 					} catch(...) {
-
-						// TODO: Catch outside
-						// Logger::Message(Logger::LOG_ERROR,"Failed to triangulate shape:",ifc_file->entityById(_id)->entity);
-						Logger::Message(Logger::LOG_ERROR,"Failed to triangulate shape");
+						Logger::Message(Logger::LOG_ERROR, "Failed to triangulate shape");
 						continue;
 					}
 
@@ -175,8 +177,9 @@ namespace IfcGeom {
 						TopLoc_Location loc;
 						Handle_Poly_Triangulation tri = BRep_Tool::Triangulation(face,loc);
 
-						if ( ! tri.IsNull() ) {
-
+						if (tri.IsNull()) {
+							Logger::Message(Logger::LOG_ERROR, "Triangulation missing for face");
+						} else {
 							// A 3x3 matrix to rotate the vertex normals
 							const gp_Mat rotation_matrix = trsf.VectorialPart();
 			
@@ -206,13 +209,13 @@ namespace IfcGeom {
 									gp_Vec normal_direction;
 									prop.Normal(uv.X(),uv.Y(),p,normal_direction);
 									gp_Vec normal(0., 0., 0.);
-									if (normal_direction.Magnitude() > ALMOST_ZERO) {
+									if (normal_direction.Magnitude() > 1.e-9) {
 										normal = gp_Dir(normal_direction.XYZ() * rotation_matrix);
 									} else {
 										Handle_Geom_Surface surf = BRep_Tool::Surface(face);
 										// Special case the normal at the poles of a spherical surface
 										if (surf->DynamicType() == STANDARD_TYPE(Geom_SphericalSurface)) {
-											if (ALMOST_THE_SAME(fabs(uv.Y()), M_PI / 2.)) {
+											if (fabs(fabs(uv.Y()) - M_PI / 2.) < 1.e-9) {
 												const bool is_top = uv.Y() > 0;
 												const bool is_forward = face.Orientation() == TopAbs_FORWARD;
 												const double z = (is_top == is_forward) ? 1. : -1.;

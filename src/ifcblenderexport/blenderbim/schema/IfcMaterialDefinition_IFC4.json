@@ -1,0 +1,334 @@
+{
+    "IfcMaterial": {
+        "attributes": [
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Name", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcText", 
+                "name": "Description", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Category", 
+                "is_enum": false
+            }
+        ], 
+        "is_abstract": false, 
+        "complex_attributes": [
+            {
+                "select_types": [], 
+                "type": "IfcMaterialDefinitionRepresentation", 
+                "name": "HasRepresentation", 
+                "is_select": false
+            }
+        ], 
+        "parent": "IfcMaterialDefinition"
+    }, 
+    "IfcMaterialConstituent": {
+        "attributes": [
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Name", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcText", 
+                "name": "Description", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcNormalisedRatioMeasure", 
+                "name": "Fraction", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Category", 
+                "is_enum": false
+            }
+        ], 
+        "is_abstract": false, 
+        "complex_attributes": [
+            {
+                "select_types": [], 
+                "type": "IfcMaterial", 
+                "name": "Material", 
+                "is_select": false
+            }
+        ], 
+        "parent": "IfcMaterialDefinition"
+    }, 
+    "IfcMaterialConstituentSet": {
+        "attributes": [
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Name", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcText", 
+                "name": "Description", 
+                "is_enum": false
+            }
+        ], 
+        "is_abstract": false, 
+        "complex_attributes": [], 
+        "parent": "IfcMaterialDefinition"
+    }, 
+    "IfcMaterialLayer": {
+        "attributes": [
+            {
+                "enum_values": [], 
+                "type": "IfcNonNegativeLengthMeasure", 
+                "name": "LayerThickness", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcLogical", 
+                "name": "IsVentilated", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Name", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcText", 
+                "name": "Description", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Category", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcInteger", 
+                "name": "Priority", 
+                "is_enum": false
+            }
+        ], 
+        "is_abstract": false, 
+        "complex_attributes": [
+            {
+                "select_types": [], 
+                "type": "IfcMaterial", 
+                "name": "Material", 
+                "is_select": false
+            }
+        ], 
+        "parent": "IfcMaterialDefinition"
+    }, 
+    "IfcMaterialLayerSet": {
+        "attributes": [
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "LayerSetName", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcText", 
+                "name": "Description", 
+                "is_enum": false
+            }
+        ], 
+        "is_abstract": false, 
+        "complex_attributes": [], 
+        "parent": "IfcMaterialDefinition"
+    }, 
+    "IfcMaterialLayerWithOffsets": {
+        "attributes": [
+            {
+                "enum_values": [], 
+                "type": "IfcNonNegativeLengthMeasure", 
+                "name": "LayerThickness", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcLogical", 
+                "name": "IsVentilated", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Name", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcText", 
+                "name": "Description", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Category", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcInteger", 
+                "name": "Priority", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [
+                    "AXIS1", 
+                    "AXIS2", 
+                    "AXIS3"
+                ], 
+                "type": "IfcLayerSetDirectionEnum", 
+                "name": "OffsetDirection", 
+                "is_enum": true
+            }
+        ], 
+        "is_abstract": false, 
+        "complex_attributes": [
+            {
+                "select_types": [], 
+                "type": "IfcMaterial", 
+                "name": "Material", 
+                "is_select": false
+            }
+        ], 
+        "parent": "IfcMaterialLayer"
+    }, 
+    "IfcMaterialProfile": {
+        "attributes": [
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Name", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcText", 
+                "name": "Description", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcInteger", 
+                "name": "Priority", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Category", 
+                "is_enum": false
+            }
+        ], 
+        "is_abstract": false, 
+        "complex_attributes": [
+            {
+                "select_types": [], 
+                "type": "IfcMaterial", 
+                "name": "Material", 
+                "is_select": false
+            }, 
+            {
+                "select_types": [], 
+                "type": "IfcProfileDef", 
+                "name": "Profile", 
+                "is_select": false
+            }
+        ], 
+        "parent": "IfcMaterialDefinition"
+    }, 
+    "IfcMaterialProfileSet": {
+        "attributes": [
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Name", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcText", 
+                "name": "Description", 
+                "is_enum": false
+            }
+        ], 
+        "is_abstract": false, 
+        "complex_attributes": [
+            {
+                "select_types": [], 
+                "type": "IfcCompositeProfileDef", 
+                "name": "CompositeProfile", 
+                "is_select": false
+            }
+        ], 
+        "parent": "IfcMaterialDefinition"
+    }, 
+    "IfcMaterialProfileWithOffsets": {
+        "attributes": [
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Name", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcText", 
+                "name": "Description", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcInteger", 
+                "name": "Priority", 
+                "is_enum": false
+            }, 
+            {
+                "enum_values": [], 
+                "type": "IfcLabel", 
+                "name": "Category", 
+                "is_enum": false
+            }
+        ], 
+        "is_abstract": false, 
+        "complex_attributes": [
+            {
+                "select_types": [], 
+                "type": "IfcMaterial", 
+                "name": "Material", 
+                "is_select": false
+            }, 
+            {
+                "select_types": [], 
+                "type": "IfcProfileDef", 
+                "name": "Profile", 
+                "is_select": false
+            }
+        ], 
+        "parent": "IfcMaterialProfile"
+    }
+}

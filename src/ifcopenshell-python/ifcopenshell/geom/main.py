@@ -43,15 +43,14 @@ if has_occ:
     except ImportError:
         from OCC import TopoDS
 
-    def wrap_shape_creation(settings, shape): return utils.create_shape_from_serialization(shape) if getattr(settings,
-                                                                                                             'use_python_opencascade',
-                                                                                                             False) else shape
-
+    def wrap_shape_creation(settings, shape):
+        if getattr(settings, 'use_python_opencascade', False):
+            return utils.create_shape_from_serialization(shape)
+        else:
+            return shape
 
 # Subclass the settings module to provide an additional
 # setting to enable pythonOCC when available
-
-
 class settings(ifcopenshell_wrapper.settings):
     if has_occ:
         USE_PYTHON_OPENCASCADE = -1
@@ -67,27 +66,29 @@ class settings(ifcopenshell_wrapper.settings):
                 ifcopenshell_wrapper.settings.set(self, *args)
 
 
-# Hide templating precision to the user by choosing based on Python's
-# internal float type. This is probably always going to be a double.
-for ty in (ifcopenshell_wrapper.iterator_single_precision, ifcopenshell_wrapper.iterator_double_precision):
-    if ty.mantissa_size() == sys.float_info.mant_dig:
-        _iterator = ty
-
+# Assert templated precision to match Python's internal float type
+assert ifcopenshell_wrapper.iterator_double_precision.mantissa_size() == sys.float_info.mant_dig
+_iterator = ifcopenshell_wrapper.iterator_double_precision
 
 # Make sure people are able to use python's platform agnostic paths
 class iterator(_iterator):
-    def __init__(self, settings, file_or_filename):
+    def __init__(self, settings, file_or_filename, num_threads = 1):
         self.settings = settings
         if isinstance(file_or_filename, file):
             file_or_filename = file_or_filename.wrapped_data
         else:
             file_or_filename = os.path.abspath(file_or_filename)
-        _iterator.__init__(self, settings, file_or_filename)
+        _iterator.__init__(self, settings, file_or_filename, num_threads)
 
     if has_occ:
         def get(self):
             return wrap_shape_creation(self.settings, _iterator.get(self))
-
+            
+    def __iter__(self):
+        if self.initialize():
+            while True:
+                yield self.get()
+                if not self.next(): break
 
 class tree(ifcopenshell_wrapper.tree):
 
@@ -178,13 +179,13 @@ def make_shape_function(fn):
         return None if e is None else entity_instance(e)
 
     if has_occ:
-        def _(string_or_shape, *args):
+        def _(schema, string_or_shape, *args):
             if isinstance(string_or_shape, TopoDS.TopoDS_Shape):
                 string_or_shape = utils.serialize_shape(string_or_shape)
-            return entity_instance_or_none(fn(string_or_shape, *args))
+            return entity_instance_or_none(fn(schema, string_or_shape, *args))
     else:
-        def _(string, *args):
-            return entity_instance_or_none(fn(string, *args))
+        def _(schema, string, *args):
+            return entity_instance_or_none(fn(schema, string, *args))
     return _
 
 

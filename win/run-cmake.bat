@@ -64,12 +64,12 @@ set BOOST_VER=%BOOST_VERSION:.=_%
 
 set BOOST_ROOT=%DEPS_DIR%\boost_%BOOST_VER%
 set BOOST_LIBRARYDIR=%BOOST_ROOT%\stage\vs%VS_VER%-%VS_PLATFORM%\lib
-set ICU_INCLUDE_DIR=%INSTALL_DIR%\icu\include
-set ICU_LIBRARY_DIR=%INSTALL_DIR%\icu\lib
 if not defined OCC_INCLUDE_DIR set OCC_INCLUDE_DIR=%INSTALL_DIR%\oce\include\oce
 if not defined OCC_LIBRARY_DIR set OCC_LIBRARY_DIR=%INSTALL_DIR%\oce\Win%ARCH_BITS%\lib
 set OPENCOLLADA_INCLUDE_DIR=%INSTALL_DIR%\OpenCOLLADA\include\opencollada
 set OPENCOLLADA_LIBRARY_DIR=%INSTALL_DIR%\OpenCOLLADA\lib\opencollada
+set LIBXML2_INCLUDE_DIR=%DEPS_DIR%\OpenCOLLADA\Externals\LibXML\include
+set LIBXML2_LIBRARIES=%INSTALL_DIR%\OpenCOLLADA\lib\opencollada\xml.lib
 if not defined PY_VER_MAJOR_MINOR set PY_VER_MAJOR_MINOR=34
 if not defined PYTHONHOME set PYTHONHOME=%INSTALL_DIR%\Python%PY_VER_MAJOR_MINOR%
 set PYTHON_INCLUDE_DIR=%PYTHONHOME%\include
@@ -77,7 +77,7 @@ set PYTHON_LIBRARY=%PYTHONHOME%\libs\python%PY_VER_MAJOR_MINOR%.lib
 set PYTHON_EXECUTABLE=%PYTHONHOME%\python.exe
 set SWIG_DIR=%INSTALL_DIR%\swigwin
 set PATH=%PATH%;%SWIG_DIR%;%PYTHONHOME%
-set THREEDS_MAX_SDK_HOME=C:\Program Files\Autodesk\3ds Max 2016 SDK\maxsdk
+set JSON_INCLUDE_DIR=%INSTALL_DIR%\json
 
 echo.
 call cecho.cmd 0 10 "Script configuration:"
@@ -87,18 +87,18 @@ echo.
 call cecho.cmd 0 10 "Dependency Environment Variables for %PROJECT_NAME%:"
 echo    BOOST_ROOT              = %BOOST_ROOT%
 echo    BOOST_LIBRARYDIR        = %BOOST_LIBRARYDIR%
-echo    ICU_INCLUDE_DIR         = %ICU_INCLUDE_DIR%
-echo    ICU_LIBRARY_DIR         = %ICU_LIBRARY_DIR%
 echo    OCC_INCLUDE_DIR         = %OCC_INCLUDE_DIR%
 echo    OCC_LIBRARY_DIR         = %OCC_LIBRARY_DIR%
 echo    OPENCOLLADA_INCLUDE_DIR = %OPENCOLLADA_INCLUDE_DIR%
 echo    OPENCOLLADA_LIBRARY_DIR = %OPENCOLLADA_LIBRARY_DIR%
+echo    LIBXML2_INCLUDE_DIR     = %LIBXML2_INCLUDE_DIR%
+echo    LIBXML2_LIBRARIES       = %LIBXML2_LIBRARIES%
 echo    PYTHONHOME              = %PYTHONHOME%
 echo    PYTHON_INCLUDE_DIR      = %PYTHON_INCLUDE_DIR%
 echo    PYTHON_LIBRARY          = %PYTHON_LIBRARY%
 echo    PYTHON_EXECUTABLE       = %PYTHON_EXECUTABLE%
 echo    SWIG_DIR                = %SWIG_DIR%
-echo    THREEDS_MAX_SDK_HOME    = %THREEDS_MAX_SDK_HOME%
+echo    JSON_INCLUDE_DIR        = %JSON_INCLUDE_DIR%
 echo.
 echo    CMAKE_INSTALL_PREFIX    = %CMAKE_INSTALL_PREFIX%
 echo.
